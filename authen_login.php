@@ -1,6 +1,7 @@
 <html>
 <body>
 <?php
+if(! session_id() ) { session_start(); }
  require('db_connect.php');
 
 if(isset($_POST['login']))  
@@ -20,12 +21,12 @@ $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 $count = mysqli_num_rows($result);
 
 
-if ($count > 0 ){
-  
-
-        
-        echo "<script> location.href='loggedindex.php'; </script>";
-        exit;
+if ($count > 0 ) {
+    $user = mysqli_fetch_row($result);
+	$_SESSION['email'] = $user[0];
+	$_SESSION['userid'] = $user[4];
+	echo "<script> location.href='loggedindex.php'; </script>";
+    exit;
 }
 
 
